@@ -8,6 +8,8 @@ var Atlastory = Atlastory || {};
 
 (function() {
 
+    var root = this;
+
     var Diff = Atlastory.Difference;
 
     Atlastory.geom = {};

@@ -9,6 +9,8 @@ var Atlastory = Atlastory || {};
 
 (function() {
 
+  var root = this;
+
   var Difference = Atlastory.Difference = function (a, b) {
     if (typeof a === 'string') a = a.split('\n');
     if (typeof b === 'string') b = b.split('\n');

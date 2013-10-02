@@ -1,6 +1,7 @@
 /* Atlastory Geometry Functions
  * Requires:
  * Atlastory.Difference
+ * JSON object (for <=IE9)
  */
 
 var Atlastory = Atlastory || {};
@@ -48,6 +49,8 @@ var Atlastory = Atlastory || {};
         var adds = 0, dels = 0,
             task, index, item, offset, c;
 
+        diff = (typeof diff === 'string') ?
+                JSON.parse(diff) : diff;
         geom = flattenArray(geom);
 
         // Special case of a single coordinate
@@ -73,8 +76,7 @@ var Atlastory = Atlastory || {};
             }
         }
 
-        if (JSON) return unFlattenArray(geom);
-        else      return unFlattenNoJSON(geom);
+        return unFlattenArray(geom);
     };
 
     // Reverts geometry to its prior state from diff
@@ -117,45 +119,6 @@ var Atlastory = Atlastory || {};
         str += ']';
 
         return JSON.parse(str);
-    }
-
-    function unFlattenNoJSON(arr) {
-        var newArray = [], length, end, sub, uA, i;
-
-        function endArray(i) {
-            var nested = 0,
-                item = arr[i],
-                end = false, ind;
-            while (item === sep1) {
-                nested++;
-                item = arr[i+nested];
-            }
-            for (var x=0; x < arr.length; x++) {
-                for (var y=0; y < nested; y++) {
-                    if (arr[x+y] === sep2) end = true;
-                    else { end = false; break; }
-                }
-                if (end) {
-                    ind = x + nested - 1;
-                    break;
-                }
-            }
-            return ind;
-        }
-
-        for (i=0; i < arr.length; i++) {
-            if (arr[i] === sep1) {
-                end = endArray(i);
-                sub = arr.splice(i+1, end);
-                uA = unFlattenArray(sub);
-                newArray.push(uA);
-            } else if (arr[i] === sep2) {
-                return newArray;
-            } else {
-                newArray.push(arr[i]);
-            }
-        }
-        return newArray;
     }
 
 })();

@@ -61,7 +61,7 @@ describe('#revert()', function() {
 });
 
 
-describe('actual geometry', function() {
+describe('geom (with actual geometry)', function() {
     it('should get diff', function() {
         diff = geom.getDiff(cr, cr2);
         assert.deepEqual(diff[1][2], [-85.88,11.234000447]);
@@ -70,5 +70,10 @@ describe('actual geometry', function() {
     it('should build geom', function() {
         build = geom.build(cr, diff);
         assert.deepEqual(build, cr2);
+    });
+
+    it('should revert geom', function() {
+        undo = geom.revert(cr2, diff);
+        assert.deepEqual(undo, cr);
     });
 });
